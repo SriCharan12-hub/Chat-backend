@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-
+console.log("hello")
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -10,6 +10,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, "") : "", // Remove spaces from App Password
   },
 });
+console.log(transporter)
 
 transporter.verify(function (error, success) {
   if (error) {

@@ -49,7 +49,12 @@ export const registerUser = async (req, res) => {
 
         await usercheck.save();
 
-        await sendVerificationEmail(Email, otp);
+        try {
+          await sendVerificationEmail(Email, otp);
+        } catch (emailError) {
+          console.log("Error resending verification email:", emailError.message);
+          // Don't fail resend if email fails
+        }
 
         return res.status(200).json({
           message: "Verification code resent.",
@@ -77,7 +82,12 @@ export const registerUser = async (req, res) => {
       isVerified: false,
     });
 
-    await sendVerificationEmail(Email, otp);
+    try {
+      await sendVerificationEmail(Email, otp);
+    } catch (emailError) {
+      console.log("Error sending verification email:", emailError.message);
+      // Don't fail signup if email fails, user can retry
+    }
 
     return res.status(201).json({
       message: "OTP sent to your email. Please verify.",
